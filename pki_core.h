@@ -7,27 +7,27 @@
 #include <string.h>
 #include <time.h>
 
-// --- CẤU TRÚC DỮ LIỆU ---
-
-// 1. Cặp khóa RSA (Dùng uint64_t để mô phỏng - Giáo dục)
 typedef struct {
     uint64_t n; // Modulus (Public)
     uint64_t e; // Public Exponent
-    uint64_t d; // Private Exponent (Bí mật)
+    uint64_t d; // Private Exponent 
 } RSA_Keypair;
 
-// 2. Cấu trúc Chứng thư Tự chế (Thay cho X.509)
 typedef struct {
     uint64_t serial_number;
     char issuer[64];
     char subject[64];
     uint64_t subject_pub_n;
     uint64_t subject_pub_e;
-    uint64_t signature; // Chữ ký số của Issuer lên chứng thư này
-} CustomCert;
+    
+    // NEW: The "Validity Window"
+    time_t not_before; 
+    time_t not_after;   
+    
+    uint64_t signature;
+} CustomCert; //Based on X509
 
-
-// --- KHAI BÁO HÀM ---
+// ===FUNCTION DECLARATION===
 uint64_t mod_exp(uint64_t base, uint64_t exp, uint64_t mod);
 uint64_t simple_hash(CustomCert *cert);
 void generate_rsa_keypair(RSA_Keypair *kp, uint64_t p, uint64_t q);
