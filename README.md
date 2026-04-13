@@ -103,3 +103,6 @@ This is the bouncer at the club.
      
 5. **Revoke Alice (The Drama Step)**: Add Alice's serial number to a file named `crl.txt` and watch the verifier reject her\!
 
+---
+## 👥 Member contribution
+- Bùi Đức Công Vinh - 20210969: Create core mathematical modules Modular Exponentiation, Extended Euclidean, SHA-64, RSA Signature and based on X509, create a custom (DIY) certificate version. 
