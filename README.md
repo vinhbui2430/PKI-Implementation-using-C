@@ -14,22 +14,14 @@ Below is the high-level flow of how our "Trust Factory" works.
 
 ```mermaid
 graph TD
-
-    A\[CA Server\] \--\>|Generates| B(Root Keys: ca\_private.key, ca\_public.key)
-
-    B \--\> C\[RA Issuer\]
-
-    C \--\>|Signs| D{Custom Certificate}
-
-    D \--\>|Stored as| E(Alice.cert)
-
-    E \--\> F\[Client Verifier\]
-
-    F \--\>|Checks| G(ca\_public.key)
-
-    F \--\>|Checks| H(crl.txt \- The Blacklist)
-
-    G & H \--\> I{Access Granted/Denied}
+    CA[CA Server] -- "Generates" --> Keys["Root Keys (ca_private.key, ca_public.key)"]
+    Keys --> RA[RA Issuer]
+    RA -- "Signs" --> Cert{Custom Certificate}
+    Cert -- "Stored as" --> AliceCert["Alice.cert"]
+    AliceCert --> Verifier["Client Verifier"]
+    Verifier -- "Checks Signature with" --> CAPub["ca_public.key"]
+    Verifier -- "Checks Status in" --> CRL["crl.txt (The Blacklist)"]
+    CAPub & CRL --> Decision{Access Granted or Denied?}
 ```
 
 ---
