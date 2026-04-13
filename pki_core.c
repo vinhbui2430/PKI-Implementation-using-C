@@ -48,10 +48,30 @@ void generate_rsa_keypair(RSA_Keypair *kp, uint64_t p, uint64_t q) {
 }
 
 // Simplified Hash
-static uint64_t rotr(uint64_t x, uint64_t n) {
-    return (x >> n) | (x << (64 - n));
-}
+uint64_t simple_hash(CustomCert *cert) {
+    uint64_t h = 0x6a09e667f3bcc908ULL; 
+    
+    char buffer[256];
+    // Đã sửa thành %llu
+    sprintf(buffer, "%llu%s%s%llu%llu", cert->serial_number, cert->issuer, cert->subject, cert->subject_pub_n, cert->subject_pub_e);
+    
+    unsigned char *data = (unsigned char *)buffer;
+    size_t len = strlen(buffer);
 
+    for (size_t i = 0; i < len; i++) {
+        h ^= data[i];
+        h = (h ^ rotr(h, 25)) ^ (h ^ rotr(h, 41));
+        h = h * 0xd6e8feb86659fd93ULL; 
+        h += 0xbb67ae8584caa73bULL;   
+    }
+
+    h ^= h >> 33;
+    h *= 0xff51afd7ed558ccdULL; 
+    h ^= h >> 33;
+    h *= 0xc4ceb9fe1a85ec53ULL;
+    h ^= h >> 33; 
+    return h;
+}
 uint64_t sha64_hash(CustomCert *cert) {
     // 1. Initial State 
     uint64_t h = 0x6a09e667f3bcc908ULL; 
