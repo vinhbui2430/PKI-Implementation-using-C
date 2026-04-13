@@ -48,34 +48,35 @@ void generate_rsa_keypair(RSA_Keypair *kp, uint64_t p, uint64_t q) {
 }
 
 // Simplified Hash
-// A bitwise right-rotate function - the "secret sauce" of SHA
 static uint64_t rotr(uint64_t x, uint64_t n) {
     return (x >> n) | (x << (64 - n));
 }
 
 uint64_t sha64_hash(CustomCert *cert) {
-    // 1. Initial State (Magic constants derived from primes)
+    // 1. Initial State 
     uint64_t h = 0x6a09e667f3bcc908ULL; 
     
-    // 2. Prepare the data
     // We treat the certificate struct as a stream of bytes
     unsigned char *data = (unsigned char *)cert;
     size_t len = sizeof(CustomCert);
 
-    // 3. The Mixing Loop (The "Blender" phase)
+    // 3. The Smoothie
     for (size_t i = 0; i < len; i++) {
         // Mix in the current byte
         h ^= data[i];
-        
-        // Perform bitwise gymnastics (inspired by SHA-2 core)
-        // This ensures that one changed bit flips many others
+        // Perform bitwise cartwheel (inspired by SHA-2 core)
         h = (h ^ rotr(h, 25)) ^ (h ^ rotr(h, 41));
-        h = h * 0xd6e8feb86659fd93ULL; // A large prime multiplier
-        h += 0xbb67ae8584caa73bULL;   // Another "magic" constant
+        h = h * 0xd6e8feb86659fd93ULL; // A HUGE prime multiplier
+        h += 0xbb67ae8584caa73bULL;   // Another "unga bunga" constant
     }
 
     // 4. Final Constraints
     // This isn't exactly SHA-256 but it is to my smol brain
+    h ^= h >> 33;
+    h *= 0xff51afd7ed558ccdULL; // STONKING prime constant
+    h ^= h >> 33;
+    h *= 0xc4ceb9fe1a85ec53ULL;
+    h ^= h >> 33; //MurmurHash3 copycat
     return h;
 }
 
