@@ -60,7 +60,7 @@ uint64_t simple_hash(CustomCert *cert) {
 
     for (size_t i = 0; i < len; i++) {
         h ^= data[i];
-        h = (h ^ rotr(h, 25)) ^ (h ^ rotr(h, 41));
+        h = (h ^ _rotr(h, 25)) ^ (h ^ _rotr(h, 41));
         h = h * 0xd6e8feb86659fd93ULL; 
         h += 0xbb67ae8584caa73bULL;   
     }

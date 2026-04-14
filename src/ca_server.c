@@ -12,17 +12,17 @@ int main() {
     printf("[*] Dang tinh toan cap khoa RSA cho CA...\n");
     generate_rsa_keypair(&ca_key, p, q);
     
-    printf("[+] CA Public Key (n, e) : (%lu, %lu)\n", ca_key.n, ca_key.e);
-    printf("[!] CA Private Key (d)   : %lu (Giu bi mat tuyet doi!)\n", ca_key.d);
+    printf("[+] CA Public Key (n, e) : (%llu, %llu)\n", ca_key.n, ca_key.e);
+    printf("[!] CA Private Key (d)   : %llu (Giu bi mat tuyet doi!)\n", ca_key.d);
 
     // Lưu khóa bí mật của CA (Mô phỏng lưu vào vùng cấm)
     FILE *f_priv = fopen("ca_private.key", "w");
-    fprintf(f_priv, "%lu %lu %lu", ca_key.n, ca_key.e, ca_key.d);
+    fprintf(f_priv, "%llu %llu %llu", ca_key.n, ca_key.e, ca_key.d);
     fclose(f_priv);
 
     // Lưu Public Key của CA để mọi người cùng biết
     FILE *f_pub = fopen("ca_public.key", "w");
-    fprintf(f_pub, "%lu %lu", ca_key.n, ca_key.e);
+    fprintf(f_pub, "%llu %llu", ca_key.n, ca_key.e);
     fclose(f_pub);
 
     printf("[v] Da hoan tat setup CA. File duoc luu tai thu muc hien tai.\n");
