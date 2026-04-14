@@ -6,6 +6,7 @@ This project is a C-based simulation of a **Public Key Infrastructure (PKI)**.
 
 Think of PKI as a giant club. The **CA** is the club owner, the **RA** is the guy checking IDs at the door, and the **Certificates** are the VIP passes.
 
+
 Project file tree: 
 PKI-Implementation-using-C/
 ├── src/               # The "Guts" (.c files)
@@ -16,6 +17,7 @@ PKI-Implementation-using-C/
 ├── Makefile           # The Chef
 ├── .gitignore         # The Security Guard
 └── README.md          # The Instruction Manual
+
 
 ---
 
