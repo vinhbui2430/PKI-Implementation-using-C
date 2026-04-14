@@ -44,14 +44,21 @@ The Root Certificate Authority (CA). If the CA says it's true, it's true.
 - **Files**: `ca_server.c`  
 - **Job**: Generates the master RSA keys. It creates a "Private Key" (which it hides like a dragon's hoard) and a "Public Key" (which it gives to everyone).
 
-### 3\. `ra_issuer` (The ID Desk)
+### 3\. `csr` (The Security Helper)
+
+Enhances system robustness and implements Client-side Security.
+
+- **Files**: `csr.h`  
+- **Job**: Allows clients to generate RSA pairs locally so the Private Key never leaves their machine. It includes a Secure Vaulting system with password-protected access control.
+
+### 4\. `ra_issuer` (The ID Desk)
 
 The Registration Authority (RA). In our simplified world, it acts as the issuer.
 
 - **Files**: `ra_issuer.c`  
 - **Job**: Takes a name (e.g., "Alice"), generates a pair of keys for them, and then uses the **CA's Private Key** to "stamp" (sign) a certificate.
 
-### 4\. `client_verify` (The Skeptical Guard)
+### 5\. `client_verify` (The Skeptical Guard)
 
 This is the bouncer at the club.
 
