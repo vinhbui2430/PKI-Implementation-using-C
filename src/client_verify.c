@@ -6,7 +6,7 @@ int is_revoked(uint64_t serial) {
     if (!f) return 0; // File không tồn tại -> an toàn
     
     uint64_t revoked_serial;
-    while (fscanf(f, "%lu", &revoked_serial) != EOF) {
+    while (fscanf(f, "%llu", &revoked_serial) != EOF) {
         if (revoked_serial == serial) {
             fclose(f);
             return 1; // Bị thu hồi!
@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
     FILE *f_pub = fopen("ca_public.key", "r");
     if (!f_pub) { printf("Loi: Khong thay CA Public Key.\n"); return 1; }
     uint64_t ca_n, ca_e;
-    fscanf(f_pub, "%lu %lu", &ca_n, &ca_e);
+    fscanf(f_pub, "%llu %llu", &ca_n, &ca_e);
     fclose(f_pub);
 
     // 2. Đọc chứng thư Client gửi đến
@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
     fread(&cert, sizeof(CustomCert), 1, f_cert);
     fclose(f_cert);
 
-    printf("[-] Dang kiem tra chung thu cua: %s (Serial: %lu)\n", cert.subject, cert.serial_number);
+    printf("[-] Dang kiem tra chung thu cua: %s (Serial: %llu)\n", cert.subject, cert.serial_number);
 
     // 3. Tính toán lại mã băm
     uint64_t computed_hash = simple_hash(&cert);
