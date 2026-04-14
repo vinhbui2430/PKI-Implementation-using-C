@@ -44,14 +44,21 @@ The Root Certificate Authority (CA). If the CA says it's true, it's true.
 - **Files**: `ca_server.c`  
 - **Job**: Generates the master RSA keys. It creates a "Private Key" (which it hides like a dragon's hoard) and a "Public Key" (which it gives to everyone).
 
-### 3\. `ra_issuer` (The ID Desk)
+### 3\. `csr` (The Security Helper)
+
+Enhances system robustness and implements Client-side Security.
+
+- **Files**: `csr.h`  
+- **Job**: Allows clients to generate RSA pairs locally so the Private Key never leaves their machine. It includes a Secure Vaulting system with password-protected access control.
+
+### 4\. `ra_issuer` (The ID Desk)
 
 The Registration Authority (RA). In our simplified world, it acts as the issuer.
 
 - **Files**: `ra_issuer.c`  
 - **Job**: Takes a name (e.g., "Alice"), generates a pair of keys for them, and then uses the **CA's Private Key** to "stamp" (sign) a certificate.
 
-### 4\. `client_verify` (The Skeptical Guard)
+### 5\. `client_verify` (The Skeptical Guard)
 
 This is the bouncer at the club.
 
@@ -93,16 +100,26 @@ This is the bouncer at the club.
      
    ./ca\_server  
      
-3. **Issue a Certificate for Alice**:  
+3. **Generate Local Keys & Request**:  
+     
+   (Uses `csr.h` logic)  
+     
+4. **Issue a Certificate for Alice**:  
      
    ./ra\_issuer Alice  
      
-4. **Verify Alice's Certificate**:  
+5. **Verify Alice's Certificate**:  
      
    ./client\_verify Alice.cert  
      
-5. **Revoke Alice (The Drama Step)**: Add Alice's serial number to a file named `crl.txt` and watch the verifier reject her\!
+6. **Revoke Alice (The Drama Step)**:
+
+   Add Alice's serial number to a file named `crl.txt` and watch the verifier reject her\!
 
 ---
 ## 👥 Member contribution
-- Bùi Đức Công Vinh - 20210969: Create core mathematical modules Modular Exponentiation, Extended Euclidean, SHA-64, RSA Signature and based on X509, create a custom (DIY) certificate version. 
+- Bùi Đức Công Vinh - 20210969: Create core mathematical modules Modular Exponentiation, Extended Euclidean, SHA-64, RSA Signature and based on X509, create a custom (DIY) certificate version.
+- Nguyễn Duy Việt - 20234049: Create a `csr.h` file as a helper to enhace robustness of `ca_client.c` for e.g create key pairs then export to new directory and handling exotic cases
+- Hoàng Quốc Việt - 20234048: Implemented the Root Certificate Authority (CA) using RSA, including key generation and storage (ca_public.key, ca_private.key). Developed test modules to verify key generation, certificate signing, and validation.
+- Đỗ Hoàng Tùng - 20234047: Implemented client-side certificate verification using RSA signature validation, hash-based integrity check, and CRL revocation; integrated with CA public key and RA-issued certificates.
+- Tạ Văn Việt - 20234050: Developed the certificate issuance system featuring a custom SHA-64 hashing engine and RSA signing. Built a dedicated verification suite to ensure the integrity and cryptographic security of all binary certificates.
