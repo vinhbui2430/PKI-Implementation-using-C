@@ -52,9 +52,12 @@ uint64_t simple_hash(CustomCert *cert) {
     uint64_t h = 0x6a09e667f3bcc908ULL; 
     
     char buffer[256];
-    // Đã sửa thành %llu
-    sprintf(buffer, "%llu%s%s%llu%llu", cert->serial_number, cert->issuer, cert->subject, cert->subject_pub_n, cert->subject_pub_e);
     
+    sprintf(buffer, "%llu%s%s%llu%llu", cert->serial_number, cert->issuer, cert->subject, cert->subject_pub_n, cert->subject_pub_e);
+    printf("\n[DEBUG HASH] Dang bam chung thu Serial: %llu\n", cert->serial_number);
+    printf("[DEBUG HASH] Buffer content: [%s]\n", buffer);
+    printf("[DEBUG HASH] Buffer length: %zu\n\n", strlen(buffer));
+
     unsigned char *data = (unsigned char *)buffer;
     size_t len = strlen(buffer);
 
@@ -109,5 +112,5 @@ uint64_t sign_data(uint64_t hash_val, uint64_t d, uint64_t n) {
 
 int verify_signature(uint64_t hash_val, uint64_t signature, uint64_t e, uint64_t n) {
     uint64_t decrypted_hash = mod_exp(signature, e, n);
-    return (decrypted_hash == hash_val);
+    return (decrypted_hash == (hash_val % n));
 }

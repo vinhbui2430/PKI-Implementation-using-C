@@ -9,7 +9,7 @@ COMMON_OBJS = $(OBJ_DIR)/pki_core.o
 all: setup ca_server ra_issuer client_verify
 
 setup:
-# 	mkdir -p $(OBJ_DIR) $(BIN_DIR)
+# mkdir -p $(OBJ_DIR) $(BIN_DIR)
 
 $(OBJ_DIR)/pki_core.o: $(SRC_DIR)/pki_core.c include/pki_core.h
 	$(CC) $(CFLAGS) -c $< -o $@
