@@ -1,0 +1,16 @@
+# Compiled Binaries
+bin/
+ca_server
+ra_issuer
+client_verify
+test_pki_core
+*.o
+
+# Private Keys & Certificates (NEVER UPLOAD THESE)
+vault/
+*.key
+*.cert
+crl.txt
+
+# OS Junk
+.DS_Store
