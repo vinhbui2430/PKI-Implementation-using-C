@@ -47,7 +47,7 @@ void generate_rsa_keypair(RSA_Keypair *kp, uint64_t p, uint64_t q) {
     kp->d = mod_inverse(kp->e, phi);
 }
 
-// Simplified Hash
+// sha64
 uint64_t simple_hash(CustomCert *cert) {
     uint64_t h = 0x6a09e667f3bcc908ULL; 
     
@@ -64,7 +64,7 @@ uint64_t simple_hash(CustomCert *cert) {
         h = h * 0xd6e8feb86659fd93ULL; 
         h += 0xbb67ae8584caa73bULL;   
     }
-
+    //MurmurHash3 copycat
     h ^= h >> 33;
     h *= 0xff51afd7ed558ccdULL; 
     h ^= h >> 33;
@@ -72,6 +72,8 @@ uint64_t simple_hash(CustomCert *cert) {
     h ^= h >> 33; 
     return h;
 }
+
+/* sha64_hash 1version
 uint64_t sha64_hash(CustomCert *cert) {
     // 1. Initial State 
     uint64_t h = 0x6a09e667f3bcc908ULL; 
@@ -98,7 +100,8 @@ uint64_t sha64_hash(CustomCert *cert) {
     h *= 0xc4ceb9fe1a85ec53ULL;
     h ^= h >> 33; //MurmurHash3 copycat
     return h;
-}
+} 
+*/
 
 uint64_t sign_data(uint64_t hash_val, uint64_t d, uint64_t n) {
     return mod_exp(hash_val, d, n);
